@@ -1,5 +1,4 @@
 import sys
-import random
 from PySide2 import QtWidgets
 from app import Converter
 
