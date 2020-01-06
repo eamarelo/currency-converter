@@ -156,7 +156,7 @@ class Converter(QDialog):
     def onTargetCurrency(self):
         currency1 = self.currentAmount['select'].currentText()
         currency2 = self.targetCurrency['select'].currentText()
-        amount1 = round(self.currentAmount['input'].text(), 2)
+        amount1 = self.currentAmount['input'].text()
         amount2 = self.targetCurrency['input'].text()
         nextValue = self.convert(amount2, currency2, currency1)
         self.targetCurrency['amount'] = amount2
@@ -166,7 +166,7 @@ class Converter(QDialog):
     def invertActions(self):
         currency1 = self.currentAmount['select'].currentText()
         currency2 = self.targetCurrency['select'].currentText()
-        amount1 = round(self.currentAmount['input'].text(), 2)
+        amount1 = self.currentAmount['input'].text()
         amount2 = self.targetCurrency['input'].text()
         self.initCurrencies(self.currentAmount['select'], currency2)
         self.initCurrencies(self.targetCurrency['select'], currency1)
