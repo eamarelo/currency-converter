@@ -1,7 +1,7 @@
 # welcome to my currency converter in python
 
 ## Prerequisite
-To have python3 installed && pip
+To have python installed and pip
 
 For this point you need to refer to the docs of your os
 
@@ -10,8 +10,8 @@ For this point you need to refer to the docs of your os
 `python3 -m venv venv`
 
 - Next, you have to activate the env:
-if you are on windows :  `.\venv\bin\activate`
-if you are on an other os :  `source ./venv/bin/activate`
+if you are on windows :  `.\venv\Scripts\activate`
+if you are on an other os :  `source ./venv/Scripts/activate`
 
 - Now you have to install the libraries :
 `pip install CurrencyConverter && pip install PySide2`
