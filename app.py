@@ -26,10 +26,6 @@ class Converter(QDialog):
         self.setStyleSheet(
             ''.join(['background-color:', self.params['background'], ';']))
         self.currencies()
-        self.form()
-
-    def form(self):
-        # init layout
         layout = QHBoxLayout()
         self.currentAmount['input'] = QLineEdit()
         self.currentAmount['select'] = QComboBox()
@@ -100,17 +96,12 @@ class Converter(QDialog):
             '''
         return result
 
-    def onChange(self, action, force=False):
+    def initValues(self, force=False):
         currency1 = self.currentAmount['select'].currentText()
         currency2 = self.targetCurrency['select'].currentText()
         amount1 = self.currentAmount['input'].text()
         amount2 = self.targetCurrency['input'].text()
-
-        if action == 'inverse':
-            self.initCurrencies(self.currentAmount['select'], currency2)
-            self.initCurrencies(self.targetCurrency['select'], currency1)
-
-        if action == 'update_target' and (force or amount1 != self.currentAmount['amount']):
+        if (force or amount1 != self.currentAmount['amount']):
             if float(amount1) < 0:
                 self.targetCurrency['input'].setText(str(''))
                 return
@@ -120,26 +111,59 @@ class Converter(QDialog):
             self.targetCurrency['amount'] = nextValue
             self.targetCurrency['input'].setText(str(nextValue))
 
-        if action == 'update_current' and (force or amount2 != self.targetCurrency['amount']):
-            nextValue = self.convert(amount2, currency2, currency1)
-            self.targetCurrency['amount'] = amount2
-            self.currentAmount['amount'] = nextValue
-            self.currentAmount['input'].setText(str(nextValue))
-
-    def initValues(self):
-        self.onChange('update_target', True)
-
     def onCurrentAmount(self):
-        self.onChange('update_target')
+        currency1 = self.currentAmount['select'].currentText()
+        currency2 = self.targetCurrency['select'].currentText()
+        amount1 = self.currentAmount['input'].text()
+        amount2 = self.targetCurrency['input'].text()
+        if float(amount1) < 0:
+            self.targetCurrency['input'].setText(str(''))
+            return
+
+        nextValue = self.convert(amount1, currency1, currency2)
+        self.currentAmount['amount'] = amount1
+        self.targetCurrency['amount'] = nextValue
+        self.targetCurrency['input'].setText(str(nextValue))
 
     def onTargetAmount(self):
-        self.onChange('update_current')
+        currency1 = self.currentAmount['select'].currentText()
+        currency2 = self.targetCurrency['select'].currentText()
+        amount1 = self.currentAmount['input'].text()
+        amount2 = self.targetCurrency['input'].text()
+        nextValue = self.convert(amount2, currency2, currency1)
+        self.targetCurrency['amount'] = amount2
+        self.currentAmount['amount'] = nextValue
+        self.currentAmount['input'].setText(str(nextValue))
 
     def onCurrentAmount(self):
-        self.onChange('update_target', True)
+        currency1 = self.currentAmount['select'].currentText()
+        currency2 = self.targetCurrency['select'].currentText()
+        amount1 = self.currentAmount['input'].text()
+        amount2 = self.targetCurrency['input'].text()
+        nextValue = self.convert(amount1, currency1, currency2)
+
+        if float(amount1) < 0:
+            self.targetCurrency['input'].setText(str(''))
+            return
+
+        self.currentAmount['amount'] = amount1
+        self.targetCurrency['amount'] = nextValue
+        self.targetCurrency['input'].setText(str(nextValue))
 
     def onTargetCurrency(self):
-        self.onChange('update_current', True)
+        currency1 = self.currentAmount['select'].currentText()
+        currency2 = self.targetCurrency['select'].currentText()
+        amount1 = self.currentAmount['input'].text()
+        amount2 = self.targetCurrency['input'].text()
+        nextValue = self.convert(amount2, currency2, currency1)
+        self.targetCurrency['amount'] = amount2
+        self.currentAmount['amount'] = nextValue
+        self.currentAmount['input'].setText(str(nextValue))
 
     def invertActions(self):
-        self.onChange('inverse')
+        currency1 = self.currentAmount['select'].currentText()
+        currency2 = self.targetCurrency['select'].currentText()
+        amount1 = self.currentAmount['input'].text()
+        amount2 = self.targetCurrency['input'].text()
+        self.initCurrencies(self.currentAmount['select'], currency2)
+        self.initCurrencies(self.targetCurrency['select'], currency1)
